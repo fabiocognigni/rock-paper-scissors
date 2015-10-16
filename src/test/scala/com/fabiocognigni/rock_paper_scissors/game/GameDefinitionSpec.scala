@@ -57,6 +57,25 @@ class GameDefinitionSpec extends WordSpec with MustMatchers {
     }
   }
 
+  "A game definition" must {
+    "find the item entity given its name" in {
+      CompleteGameDefinition.nameToItem(Item1.name) mustEqual Some(Item1)
+      CompleteGameDefinition.nameToItem(Item2.name) mustEqual Some(Item2)
+      CompleteGameDefinition.nameToItem(Item3.name) mustEqual Some(Item3)
+
+      IncompleteGameDefinition.nameToItem(Item1.name) mustEqual Some(Item1)
+      IncompleteGameDefinition.nameToItem(Item2.name) mustEqual Some(Item2)
+      IncompleteGameDefinition.nameToItem(Item3.name) mustEqual Some(Item3)
+    }
+
+    "return no items when the name provided is not defined in the rules" in {
+      val NotExistingName = "not-existing-name"
+
+      CompleteGameDefinition.nameToItem(NotExistingName) mustEqual None
+      IncompleteGameDefinition.nameToItem(NotExistingName) mustEqual None
+    }
+  }
+
 }
 
 case object Item1 extends PlayerItem("item1")
