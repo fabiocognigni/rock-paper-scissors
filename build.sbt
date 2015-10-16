@@ -9,4 +9,6 @@ val scalatestVersion = "2.2.4"
 
 //test
 libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
-    
+
+coverageMinimum := 95
+coverageFailOnMinimum := true
