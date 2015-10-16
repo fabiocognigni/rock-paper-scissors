@@ -58,6 +58,11 @@ class GameDefinitionSpec extends WordSpec with MustMatchers {
   }
 
   "A game definition" must {
+    "find out the set of all participant items in the game from the rules" in {
+      CompleteGameDefinition.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
+      IncompleteGameDefinition.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
+    }
+
     "find the item entity given its name" in {
       CompleteGameDefinition.nameToItem(Item1.name) mustEqual Some(Item1)
       CompleteGameDefinition.nameToItem(Item2.name) mustEqual Some(Item2)

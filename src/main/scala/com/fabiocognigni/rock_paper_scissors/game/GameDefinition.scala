@@ -13,6 +13,17 @@ trait GameDefinition {
   val winningRules: Map[(PlayerItem, PlayerItem), String]
 
   /**
+   * Determines all the distinct items according to the rules of the game
+   * @return all the distinct items according to the rules of the game
+   */
+  def allItems: Set[PlayerItem] = {
+    val allWinners: Set[PlayerItem] = winningRules.keys.map(_._1).toSet
+    val allLosers: Set[PlayerItem] = winningRules.keys.map(_._2).toSet
+
+    allWinners union allLosers
+  }
+
+  /**
    * Retrieves the player item entity given the name of the item.
    * Assumption: a valid item must exist in the rules of the game.
    * Note: defining the conversion name to item in a separate data structure would be less complex from a
@@ -21,10 +32,7 @@ trait GameDefinition {
    * @return a defined option with the player item object when the name exists, None if the name does not exist in the rules.
    */
   def nameToItem(itemName: String): Option[PlayerItem] = {
-    val allWinners: Set[PlayerItem] = winningRules.keys.map(_._1).toSet
-    val allLosers: Set[PlayerItem] = winningRules.keys.map(_._2).toSet
-
-    val gameItems: Set[PlayerItem] = allWinners union allLosers
+    val gameItems: Set[PlayerItem] = allItems
 
     gameItems.filter(_.name == itemName).headOption
   }
@@ -70,4 +78,5 @@ object GameDefinition {
   case object Tie extends Result
 
   case class Win(winner: PlayerItem, beatAction: String, loser: PlayerItem) extends Result
+
 }
