@@ -1,12 +1,12 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Item}
 
 trait RockPaperScissors  extends Game {
 
-  case object Rock extends PlayerItem("rock")
-  case object Paper extends PlayerItem("paper")
-  case object Scissors extends PlayerItem("scissors")
+  case object Rock extends Item("rock")
+  case object Paper extends Item("paper")
+  case object Scissors extends Item("scissors")
 
   override def winRules: Set[Win] = Set(
     Win(Paper, "covers", Rock),

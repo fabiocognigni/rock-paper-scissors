@@ -1,6 +1,6 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{Tie, Win, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Tie, Win, Item}
 import org.scalatest.{MustMatchers, WordSpec}
 
 
@@ -27,8 +27,8 @@ class GameSpec extends WordSpec with MustMatchers {
     }
 
     "throw an exception" when {
-      case object Item4 extends PlayerItem("item4")
-      case object Item5 extends PlayerItem("item5")
+      case object Item4 extends Item("item4")
+      case object Item5 extends Item("item5")
 
       "one of the items provided does not exist in the rules of the game" in {
         an[IllegalStateException] must be thrownBy {
@@ -88,9 +88,9 @@ class GameSpec extends WordSpec with MustMatchers {
 
 }
 
-case object Item1 extends PlayerItem("item1")
-case object Item2 extends PlayerItem("item2")
-case object Item3 extends PlayerItem("item3")
+case object Item1 extends Item("item1")
+case object Item2 extends Item("item2")
+case object Item3 extends Item("item3")
 
 object CompleteGame extends Game {
   val OneBeatsTwoAction: String = "1 beats 2"

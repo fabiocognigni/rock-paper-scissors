@@ -1,6 +1,6 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Tie, Result, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Tie, Result, Item}
 
 import scala.util.Random
 
@@ -22,14 +22,14 @@ trait Game {
    * Determines all the distinct items according to the rules of the game
    * @return all the distinct items according to the rules of the game
    */
-  def allItems: Set[PlayerItem] = {
-    val allWinners: Set[PlayerItem] = winRules map (_.winner)
+  def allItems: Set[Item] = {
+    val allWinners: Set[Item] = winRules map (_.winner)
     /**
      * Note: a well defined game should have each item being the winner at least in one case.
      * I'm checking also the losers side to still return all different items in case the game is not well defined (the user will
      * get an error according to the play method design when trying to play with a non defined pair of items).
      */
-    val allLosers: Set[PlayerItem] = winRules map (_.loser)
+    val allLosers: Set[Item] = winRules map (_.loser)
 
     allWinners union allLosers
   }
@@ -42,8 +42,8 @@ trait Game {
    * @param itemName name of the item
    * @return a defined option with the player item object when the name exists, None if the name does not exist in the rules.
    */
-  def nameToItem(itemName: String): Option[PlayerItem] = {
-    val gameItems: Set[PlayerItem] = allItems
+  def nameToItem(itemName: String): Option[Item] = {
+    val gameItems: Set[Item] = allItems
 
     gameItems.filter(_.name == itemName).headOption
   }
@@ -55,7 +55,7 @@ trait Game {
    * @return an object Result containing the winner, the loser and the beat action or an object Tie when players choose same items.
    * @throws IllegalStateException when no matching rules are found to determine the winner (the rules defined are not complete).
    */
-  def play(item1: PlayerItem, item2: PlayerItem): Result = {
+  def play(item1: Item, item2: Item): Result = {
     if(item1 == item2)
       Tie
     else {
@@ -70,12 +70,12 @@ trait Game {
    * Generates a random item among the items of the games.
    * @return one random item among the items of the games.
    */
-  def randomItem: PlayerItem = allItems.toVector(Random.nextInt(allItems.size))
+  def randomItem: Item = allItems.toVector(Random.nextInt(allItems.size))
 }
 
 object Game {
 
-  abstract class PlayerItem(val name: String)
+  abstract class Item(val name: String)
 
   /**
    * Common abstraction to express the 2 possible outcomes with their types.
@@ -84,6 +84,6 @@ object Game {
 
   case object Tie extends Result
 
-  case class Win(winner: PlayerItem, beatAction: String, loser: PlayerItem) extends Result
+  case class Win(winner: Item, beatAction: String, loser: Item) extends Result
 
 }

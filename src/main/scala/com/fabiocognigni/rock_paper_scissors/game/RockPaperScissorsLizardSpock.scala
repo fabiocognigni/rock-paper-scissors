@@ -1,6 +1,6 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Item}
 
 object RockPaperScissorsLizardSpock extends RockPaperScissors {
 
@@ -14,6 +14,6 @@ object RockPaperScissorsLizardSpock extends RockPaperScissors {
     Win(Spock, "vaporizes", Rock)
   )
 
-  case object Lizard extends PlayerItem("lizard")
-  case object Spock extends PlayerItem("spock")
+  case object Lizard extends Item("lizard")
+  case object Spock extends Item("spock")
 }

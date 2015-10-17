@@ -1,6 +1,6 @@
 package com.fabiocognigni.rock_paper_scissors
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{PlayerItem, Result, Tie, Win}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Item, Result, Tie, Win}
 import com.fabiocognigni.rock_paper_scissors.game.{RockPaperScissorsLizardSpock, Game, RockPaperScissors}
 
 import scala.util.{Failure, Success, Try}
@@ -90,4 +90,4 @@ object PlayGame {
   }
 }
 
-case class Player(name: String, item: PlayerItem)
+case class Player(name: String, item: Item)
