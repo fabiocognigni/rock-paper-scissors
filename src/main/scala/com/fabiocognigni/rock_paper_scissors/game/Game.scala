@@ -2,6 +2,8 @@ package com.fabiocognigni.rock_paper_scissors.game
 
 import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Tie, Result, PlayerItem}
 
+import scala.util.Random
+
 
 trait Game {
   
@@ -62,8 +64,13 @@ trait Game {
           throw new IllegalStateException(s"No matching rules for the players' items: player1=$item1; player2=$item2; rules=$winRules")
         )
     }
-
   }
+
+  /**
+   * Generates a random item among the items of the games.
+   * @return one random item among the items of the games.
+   */
+  def randomItem: PlayerItem = allItems.toVector(Random.nextInt(allItems.size))
 }
 
 object Game {

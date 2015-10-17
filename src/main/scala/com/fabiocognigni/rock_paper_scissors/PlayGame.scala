@@ -3,7 +3,7 @@ package com.fabiocognigni.rock_paper_scissors
 import com.fabiocognigni.rock_paper_scissors.game.Game.{PlayerItem, Result, Tie, Win}
 import com.fabiocognigni.rock_paper_scissors.game.{RockPaperScissorsLizardSpock, Game, RockPaperScissors}
 
-import scala.util.{Failure, Random, Success, Try}
+import scala.util.{Failure, Success, Try}
 
 object PlayGame {
 
@@ -15,17 +15,26 @@ object PlayGame {
     val gameSelector = Option(System.getProperty("game")) //from -Dgame JVM param
     implicit val game = selectGameType(gameSelector)
 
-    args.length match {
+    val resultMessage = args.length match {
       case 0 =>
+        println("Computer VS Computer")
         computerVsComputer
       case 1 =>
+        println("You VS Computer")
         playerVsComputer(args(0))
       case _ =>
-        invalidUsage
+        println(s"""
+                   |Invalid command!
+                   |Please use:
+                   |- no arguments for a ComputerVSComputer game;
+                   |- one argument (your item choice) to play a game against the Computer.
+                """.stripMargin)
     }
+
+    println(resultMessage)
   }
 
-  def selectGameType(gameArgument: Option[String]): Game = {
+  protected def selectGameType(gameArgument: Option[String]): Game = {
     if(gameArgument.isDefined) {
       games.getOrElse(gameArgument.get,
               {
@@ -38,65 +47,47 @@ object PlayGame {
     }
   }
 
-  def computerVsComputer(implicit game: Game) = {
-    println("Computer VS Computer")
-
-    val computer1 = randomItem(game)
-    println(s"Computer 1: ${computer1.name}")
-    val computer2 = randomItem(game)
-    println(s"Computer 2: ${computer2.name}")
+  def computerVsComputer(implicit game: Game): String = {
+    val computer1 = Player("Computer 1", game.randomItem)
+    val computer2 = Player("Computer 2", game.randomItem)
 
     play(computer1, computer2)
   }
 
-  def playerVsComputer(userItemName: String)(implicit game: Game) = {
-    println("You VS Computer")
-
+  def playerVsComputer(userItemName: String)(implicit game: Game): String = {
     game.nameToItem(userItemName) match {
       case Some(userItem) =>
-        println(s"You: ${userItem.name}")
-        val computerItem = randomItem(game)
-        println(s"Computer: ${computerItem.name}")
+        val user = Player("You", userItem)
+        val computer = Player("Computer", game.randomItem)
 
-        play(userItem, computerItem)
+        play(user, computer)
       case None =>
         val validItemNames = game.allItems map(_.name)
-        println(s"$userItemName is not a valid item. Valid items: $validItemNames")
+        s"$userItemName is not a valid item. Valid items: $validItemNames"
     }
 
   }
 
-  def invalidUsage = {
-    println(
-      s"""
-        |Invalid command!
-        |Please use:
-        |- no arguments for a ComputerVSComputer game;
-        |- one argument (your item choice) to play a game against the Computer.
-      """.stripMargin)
-  }
-
-  def play(item1: PlayerItem, item2: PlayerItem)(implicit game: Game) = {
-    Try(game.play(item1, item2)) match {
+  /**
+   * @return the result message to be displayed to the user
+   */
+  def play(player1: Player, player2: Player)(implicit game: Game): String = {
+    Try(game.play(player1.item, player2.item)) match {
       case Success(result) =>
-        handleResult(result)
+        s"${player1.name}: ${player1.item.name} \n" +
+        s"${player2.name}: ${player2.item.name} \n" +
+        buildMessage(result)
       case Failure(exception) =>
-        println(s"Internal application error: ${exception.getMessage}")
+        s"Internal application error: ${exception.getMessage}"
     }
   }
 
-  def handleResult(result: Result) = {
+  def buildMessage(result: Result): String = {
     result match {
-      case Tie =>
-        println("Tie!")
-      case Win(winner, beatAction, loser) =>
-        println(s"$winner won!")
-        println(s"$winner $beatAction $loser")
+      case Tie => "Tie!"
+      case Win(winner, beatAction, loser) => s"$winner won! ($winner $beatAction $loser)"
     }
-  }
-
-  def randomItem(game: Game): PlayerItem = {
-    val allItems = game.allItems
-    allItems.toVector(Random.nextInt(allItems.size))
   }
 }
+
+case class Player(name: String, item: PlayerItem)

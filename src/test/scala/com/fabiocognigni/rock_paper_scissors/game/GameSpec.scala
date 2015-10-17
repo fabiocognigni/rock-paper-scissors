@@ -79,6 +79,11 @@ class GameSpec extends WordSpec with MustMatchers {
       CompleteGame.nameToItem(NotExistingName) mustEqual None
       IncompleteGame.nameToItem(NotExistingName) mustEqual None
     }
+
+    "generate a random Item that belongs to the set of allowed items" in {
+      val randomItem = CompleteGame.randomItem
+      (randomItem == Item1 || randomItem == Item2 || randomItem == Item3) mustEqual true
+    }
   }
 
 }
