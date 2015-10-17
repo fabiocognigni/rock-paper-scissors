@@ -13,13 +13,13 @@ object PlayGame {
 
   def main (args: Array[String]) {
     val gameSelector = Option(System.getProperty("game")) //from -Dgame JVM param
-    val game = selectGameType(gameSelector)
+    implicit val game = selectGameType(gameSelector)
 
     args.length match {
       case 0 =>
-        computerVsComputer(game)
+        computerVsComputer
       case 1 =>
-        playerVsComputer(game, args(0))
+        playerVsComputer(args(0))
       case _ =>
         invalidUsage
     }
@@ -30,14 +30,15 @@ object PlayGame {
       games.getOrElse(gameArgument.get,
               {
                 println(s"Invalid game type entered (values allowed are ${games.keys}): playing classic Rock Paper Scissors ...")
-                RockPaperScissors})
+                RockPaperScissors
+              })
     } else {
       //no -Dgame argument defaults silently to RockPaperScissors
       RockPaperScissors
     }
   }
 
-  def computerVsComputer(game: Game) = {
+  def computerVsComputer(implicit game: Game) = {
     println("Computer VS Computer")
 
     val computer1 = randomItem(game)
@@ -45,10 +46,10 @@ object PlayGame {
     val computer2 = randomItem(game)
     println(s"Computer 2: ${computer2.name}")
 
-    play(game, computer1, computer2)
+    play(computer1, computer2)
   }
 
-  def playerVsComputer(game: Game, userItemName: String) = {
+  def playerVsComputer(userItemName: String)(implicit game: Game) = {
     println("You VS Computer")
 
     game.nameToItem(userItemName) match {
@@ -57,7 +58,7 @@ object PlayGame {
         val computerItem = randomItem(game)
         println(s"Computer: ${computerItem.name}")
 
-        play(game, userItem, computerItem)
+        play(userItem, computerItem)
       case None =>
         val validItemNames = game.allItems map(_.name)
         println(s"$userItemName is not a valid item. Valid items: $validItemNames")
@@ -75,7 +76,7 @@ object PlayGame {
       """.stripMargin)
   }
 
-  def play(game: Game, item1: PlayerItem, item2: PlayerItem) = {
+  def play(item1: PlayerItem, item2: PlayerItem)(implicit game: Game) = {
     Try(game.play(item1, item2)) match {
       case Success(result) =>
         handleResult(result)
