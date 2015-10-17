@@ -92,10 +92,11 @@ object CompleteGame extends Game {
   val TwoBeatsThreeAction: String = "2 beats 3"
   val ThreeBeatsOneAction: String = "3 beats 1"
 
-  override val winningRules: Map[(PlayerItem, PlayerItem), String] =
-    Map(  (Item1, Item2) -> OneBeatsTwoAction,
-          (Item2, Item3) -> TwoBeatsThreeAction,
-          (Item3, Item1) -> ThreeBeatsOneAction)
+  override def winRules: Set[Win] = Set(
+    Win(Item1, OneBeatsTwoAction, Item2),
+    Win(Item2, TwoBeatsThreeAction, Item3),
+    Win(Item3, ThreeBeatsOneAction, Item1)
+  )
 
 }
 
@@ -106,8 +107,9 @@ object IncompleteGame extends Game {
   /**
    * Note: there is no rule to define the result between Item1 and Item3
    */
-  override val winningRules: Map[(PlayerItem, PlayerItem), String] =
-    Map(  (Item1, Item2) -> OneBeatsTwoAction,
-          (Item2, Item3) -> TwoBeatsThreeAction)
+  override def winRules: Set[Win] = Set(
+    Win(Item1, OneBeatsTwoAction, Item2),
+    Win(Item2, TwoBeatsThreeAction, Item3)
+  )
 
 }

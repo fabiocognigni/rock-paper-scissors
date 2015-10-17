@@ -29,7 +29,7 @@ object PlayGame {
     if(gameArgument.isDefined) {
       games.getOrElse(gameArgument.get,
               {
-                println(s"Invalid game type entered (values allowed are ${games.keys}}): playing classic Rock Paper Scissors ...")
+                println(s"Invalid game type entered (values allowed are ${games.keys}): playing classic Rock Paper Scissors ...")
                 RockPaperScissors})
     } else {
       //no -Dgame argument defaults silently to RockPaperScissors
