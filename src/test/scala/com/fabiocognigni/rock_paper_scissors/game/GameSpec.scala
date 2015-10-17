@@ -1,13 +1,13 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.{Tie, Win, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Tie, Win, PlayerItem}
 import org.scalatest.{MustMatchers, WordSpec}
 
 
-class GameDefinitionSpec extends WordSpec with MustMatchers {
+class GameSpec extends WordSpec with MustMatchers {
 
-  "A complete game definition" must {
-    import CompleteGameDefinition._
+  "A well defined game" must {
+    import CompleteGame._
 
     "determine the winner" in {
       play(Item1, Item2) mustEqual Win(Item1, OneBeatsTwoAction, Item2)
@@ -46,8 +46,8 @@ class GameDefinitionSpec extends WordSpec with MustMatchers {
     }
   }
 
-  "An incomplete/invalid game definition" must {
-    import IncompleteGameDefinition._
+  "A game with incomplete rules" must {
+    import IncompleteGame._
 
     "throw an exception" when {
       "the items provided exist but no rule defines them" in {
@@ -57,27 +57,27 @@ class GameDefinitionSpec extends WordSpec with MustMatchers {
     }
   }
 
-  "A game definition" must {
+  "A game" must {
     "find out the set of all participant items in the game from the rules" in {
-      CompleteGameDefinition.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
-      IncompleteGameDefinition.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
+      CompleteGame.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
+      IncompleteGame.allItems must contain theSameElementsAs Set(Item1, Item2, Item3)
     }
 
     "find the item entity given its name" in {
-      CompleteGameDefinition.nameToItem(Item1.name) mustEqual Some(Item1)
-      CompleteGameDefinition.nameToItem(Item2.name) mustEqual Some(Item2)
-      CompleteGameDefinition.nameToItem(Item3.name) mustEqual Some(Item3)
+      CompleteGame.nameToItem(Item1.name) mustEqual Some(Item1)
+      CompleteGame.nameToItem(Item2.name) mustEqual Some(Item2)
+      CompleteGame.nameToItem(Item3.name) mustEqual Some(Item3)
 
-      IncompleteGameDefinition.nameToItem(Item1.name) mustEqual Some(Item1)
-      IncompleteGameDefinition.nameToItem(Item2.name) mustEqual Some(Item2)
-      IncompleteGameDefinition.nameToItem(Item3.name) mustEqual Some(Item3)
+      IncompleteGame.nameToItem(Item1.name) mustEqual Some(Item1)
+      IncompleteGame.nameToItem(Item2.name) mustEqual Some(Item2)
+      IncompleteGame.nameToItem(Item3.name) mustEqual Some(Item3)
     }
 
     "return no items when the name provided is not defined in the rules" in {
       val NotExistingName = "not-existing-name"
 
-      CompleteGameDefinition.nameToItem(NotExistingName) mustEqual None
-      IncompleteGameDefinition.nameToItem(NotExistingName) mustEqual None
+      CompleteGame.nameToItem(NotExistingName) mustEqual None
+      IncompleteGame.nameToItem(NotExistingName) mustEqual None
     }
   }
 
@@ -87,7 +87,7 @@ case object Item1 extends PlayerItem("item1")
 case object Item2 extends PlayerItem("item2")
 case object Item3 extends PlayerItem("item3")
 
-object CompleteGameDefinition extends GameDefinition {
+object CompleteGame extends Game {
   val OneBeatsTwoAction: String = "1 beats 2"
   val TwoBeatsThreeAction: String = "2 beats 3"
   val ThreeBeatsOneAction: String = "3 beats 1"
@@ -99,7 +99,7 @@ object CompleteGameDefinition extends GameDefinition {
 
 }
 
-object IncompleteGameDefinition extends GameDefinition {
+object IncompleteGame extends Game {
   val OneBeatsTwoAction: String = "1 beats 2"
   val TwoBeatsThreeAction: String = "2 beats 3"
 

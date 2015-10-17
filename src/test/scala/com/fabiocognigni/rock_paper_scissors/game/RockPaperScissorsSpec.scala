@@ -1,12 +1,12 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.Win
+import com.fabiocognigni.rock_paper_scissors.game.Game.Win
 import org.scalatest.{MustMatchers, WordSpec}
 
 class RockPaperScissorsSpec extends WordSpec with MustMatchers {
   import RockPaperScissors._
 
-  "A Rock Paper Scissors game definition" must {
+  "A Rock Paper Scissors game" must {
     "determine rock wins on scissors" in {
       val expectedResult = Win(Rock, "crushes", Scissors)
       play(Rock, Scissors) mustEqual expectedResult

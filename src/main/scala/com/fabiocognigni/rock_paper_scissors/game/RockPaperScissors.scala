@@ -1,8 +1,8 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.PlayerItem
+import com.fabiocognigni.rock_paper_scissors.game.Game.PlayerItem
 
-trait RockPaperScissors  extends GameDefinition {
+trait RockPaperScissors  extends Game {
 
   case object Rock extends PlayerItem("rock")
   case object Paper extends PlayerItem("paper")

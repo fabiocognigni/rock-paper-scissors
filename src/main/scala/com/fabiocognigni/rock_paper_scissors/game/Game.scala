@@ -1,9 +1,9 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.{Win, Tie, Result, PlayerItem}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Tie, Result, PlayerItem}
 
 
-trait GameDefinition {
+trait Game {
   
   /**
    * Override it by defining the winning rules as a map.
@@ -65,7 +65,7 @@ trait GameDefinition {
   }
 }
 
-object GameDefinition {
+object Game {
 
   abstract class PlayerItem(val name: String)
 

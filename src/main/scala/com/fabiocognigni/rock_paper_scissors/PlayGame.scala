@@ -1,13 +1,13 @@
 package com.fabiocognigni.rock_paper_scissors
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.{PlayerItem, Result, Tie, Win}
-import com.fabiocognigni.rock_paper_scissors.game.{RockPaperScissorsLizardSpock, GameDefinition, RockPaperScissors}
+import com.fabiocognigni.rock_paper_scissors.game.Game.{PlayerItem, Result, Tie, Win}
+import com.fabiocognigni.rock_paper_scissors.game.{RockPaperScissorsLizardSpock, Game, RockPaperScissors}
 
 import scala.util.{Failure, Random, Success, Try}
 
 object PlayGame {
 
-  val games: Map[String, GameDefinition] =
+  val games: Map[String, Game] =
     Map(  "classic" -> RockPaperScissors,
           "extended" -> RockPaperScissorsLizardSpock)
 
@@ -25,7 +25,7 @@ object PlayGame {
     }
   }
 
-  def selectGameType(gameArgument: Option[String]): GameDefinition = {
+  def selectGameType(gameArgument: Option[String]): Game = {
     if(gameArgument.isDefined) {
       games.getOrElse(gameArgument.get,
               {
@@ -37,7 +37,7 @@ object PlayGame {
     }
   }
 
-  def computerVsComputer(game: GameDefinition) = {
+  def computerVsComputer(game: Game) = {
     println("Computer VS Computer")
 
     val computer1 = randomItem(game)
@@ -48,7 +48,7 @@ object PlayGame {
     play(game, computer1, computer2)
   }
 
-  def playerVsComputer(game: GameDefinition, userItemName: String) = {
+  def playerVsComputer(game: Game, userItemName: String) = {
     println("You VS Computer")
 
     game.nameToItem(userItemName) match {
@@ -75,7 +75,7 @@ object PlayGame {
       """.stripMargin)
   }
 
-  def play(game: GameDefinition, item1: PlayerItem, item2: PlayerItem) = {
+  def play(game: Game, item1: PlayerItem, item2: PlayerItem) = {
     Try(game.play(item1, item2)) match {
       case Success(result) =>
         handleResult(result)
@@ -94,7 +94,7 @@ object PlayGame {
     }
   }
 
-  def randomItem(game: GameDefinition): PlayerItem = {
+  def randomItem(game: Game): PlayerItem = {
     val allItems = game.allItems
     allItems.toVector(Random.nextInt(allItems.size))
   }

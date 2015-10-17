@@ -1,6 +1,6 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.GameDefinition.PlayerItem
+import com.fabiocognigni.rock_paper_scissors.game.Game.PlayerItem
 
 object RockPaperScissorsLizardSpock extends RockPaperScissors {
 
