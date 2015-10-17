@@ -7,10 +7,11 @@ trait GameDefinition {
   
   /**
    * Override it by defining the winning rules as a map.
-   * Keys are tuples (winnerItem, loserItem).
-   * Values are the beat actions.
+   * Keys are tuples (winnerItem, loserItem). Values are the beat actions.
+   * Note: it has been defined as a method instead of as a val to make it easier inheriting it and possibly
+   * referring to it with super when overriding it (not allowed by Scala with val).
    */
-  val winningRules: Map[(PlayerItem, PlayerItem), String]
+  def winningRules: Map[(PlayerItem, PlayerItem), String]
 
   /**
    * Determines all the distinct items according to the rules of the game
@@ -67,8 +68,6 @@ trait GameDefinition {
 object GameDefinition {
 
   abstract class PlayerItem(val name: String)
-
-  //case object item1 extends PlayerItem("item1")
 
   /**
    * Common abstraction to express the 2 possible outcomes with their types.

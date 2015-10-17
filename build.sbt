@@ -23,7 +23,7 @@ coverageExcludedFiles := ".*PlayGame"
 /**
  * Assembly settings
  */
-mainClass in assembly := Some("com.fabiocognigni.rock_paper_scissors.game.PlayGame")
+mainClass in assembly := Some("com.fabiocognigni.rock_paper_scissors.PlayGame")
 assemblyJarName in assembly := "rock-paper-scissors-" + version.value + ".jar"
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard

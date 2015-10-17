@@ -8,18 +8,21 @@ class RockPaperScissorsSpec extends WordSpec with MustMatchers {
 
   "A Rock Paper Scissors game definition" must {
     "determine rock wins on scissors" in {
-      play(Rock, Scissors) mustEqual Win(Rock, "crushes", Scissors)
-      play(Scissors, Rock) mustEqual Win(Rock, "crushes", Scissors)
+      val expectedResult = Win(Rock, "crushes", Scissors)
+      play(Rock, Scissors) mustEqual expectedResult
+      play(Scissors, Rock) mustEqual expectedResult
     }
 
     "determine scissors wins on paper" in {
-      play(Scissors, Paper) mustEqual Win(Scissors, "cuts", Paper)
-      play(Paper, Scissors) mustEqual Win(Scissors, "cuts", Paper)
+      val expectedResult = Win(Scissors, "cuts", Paper)
+      play(Scissors, Paper) mustEqual expectedResult
+      play(Paper, Scissors) mustEqual expectedResult
     }
 
     "determine paper wins on rock" in {
-      play(Paper, Rock) mustEqual Win(Paper, "covers", Rock)
-      play(Rock, Paper) mustEqual Win(Paper, "covers", Rock)
+      val expectedResult = Win(Paper, "covers", Rock)
+      play(Paper, Rock) mustEqual expectedResult
+      play(Rock, Paper) mustEqual expectedResult
     }
   }
 

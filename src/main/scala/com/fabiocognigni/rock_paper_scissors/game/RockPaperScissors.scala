@@ -8,7 +8,7 @@ trait RockPaperScissors  extends GameDefinition {
   case object Paper extends PlayerItem("paper")
   case object Scissors extends PlayerItem("scissors")
 
-  override val winningRules: Map[(PlayerItem, PlayerItem), String] =
+  override def winningRules: Map[(PlayerItem, PlayerItem), String] =
     Map(  (Paper, Rock) -> "covers",
           (Rock, Scissors) -> "crushes",
           (Scissors, Paper) -> "cuts")
