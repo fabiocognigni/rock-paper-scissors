@@ -15,10 +15,10 @@ libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % 
 /**
  * Coverage settings
  */
-coverageMinimum := 100
+coverageMinimum := 95
 coverageFailOnMinimum := true
 //Excluding main class since meant to drive the manual testing and it's not observable (it only prints to stdout)
-coverageExcludedFiles := ".*PlayGame"
+//coverageExcludedFiles := ".*PlayGame"
 
 /**
  * Assembly settings

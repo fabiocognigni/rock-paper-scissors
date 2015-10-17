@@ -12,6 +12,8 @@ object PlayGame {
           "extended" -> RockPaperScissorsLizardSpock)
 
   def main (args: Array[String]) {
+    // $COVERAGE-OFF$ this method cannot be tested: it's meant to drive the manual testing and it's not observable (it only prints to stdout)
+
     val gameSelector = Option(System.getProperty("game")) //from -Dgame JVM param
     implicit val game = selectGameType(gameSelector)
 
@@ -32,9 +34,11 @@ object PlayGame {
     }
 
     println(resultMessage)
+
+    // $COVERAGE-ON$
   }
 
-  protected def selectGameType(gameArgument: Option[String]): Game = {
+  def selectGameType(gameArgument: Option[String]): Game = {
     if(gameArgument.isDefined) {
       games.getOrElse(gameArgument.get,
               {
@@ -85,7 +89,7 @@ object PlayGame {
   def buildMessage(result: Result): String = {
     result match {
       case Tie => "Tie!"
-      case Win(winner, beatAction, loser) => s"$winner won! ($winner $beatAction $loser)"
+      case Win(winner, beatAction, loser) => s"${winner.name} won! (${winner.name} $beatAction ${loser.name})"
     }
   }
 }
