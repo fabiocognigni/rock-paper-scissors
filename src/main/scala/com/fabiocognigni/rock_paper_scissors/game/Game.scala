@@ -50,16 +50,16 @@ trait Game {
     if(item1 == item2)
       Tie
     else {
-      val winner1 = winningRules.get((item1, item2))
-      val winner2 = winningRules.get((item2, item1))
-
-      (winner1, winner2) match {
-        case (Some(beatAction), None) =>
+      winningRules.get((item1, item2)) match {
+        case Some(beatAction) =>
           Win(item1, beatAction, item2)
-        case (None, Some(beatAction)) =>
-          Win(item2, beatAction, item1)
-        case _ =>
-          throw new IllegalStateException(s"No matching rules for the players' items: player1=$item1; player2=$item2; rules=$winningRules")
+        case None =>
+          winningRules.get((item2, item1)) match {
+            case Some(beatAction) =>
+              Win(item2, beatAction, item1)
+            case None =>
+              throw new IllegalStateException(s"No matching rules for the players' items: player1=$item1; player2=$item2; rules=$winningRules")
+          }
       }
     }
   }
