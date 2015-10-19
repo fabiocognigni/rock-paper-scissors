@@ -7,6 +7,9 @@ import scala.util.{Failure, Success, Try}
 
 object PlayGame {
 
+  /**
+   * Available games.
+   */
   val games: Map[String, Game] =
     Map(  "classic" -> RockPaperScissors,
           "extended" -> RockPaperScissorsLizardSpock)
@@ -39,6 +42,11 @@ object PlayGame {
     // $COVERAGE-ON$
   }
 
+  /**
+   * Select the game. Default is the classic Rock Paper Scissors game.
+   * @param gameArgument game name selected by the user (optional)
+   * @return the object for the game name chosen. Classic Rock Paper Scissor is returned if no selection has been provided.
+   */
   def selectGameType(gameArgument: Option[String]): Game = {
     if(gameArgument.isDefined) {
       games.getOrElse(gameArgument.get,
@@ -52,6 +60,11 @@ object PlayGame {
     }
   }
 
+  /**
+   * Computer VS Computer game
+   * @param game game to be played
+   * @return the result message to be displayed to the user
+   */
   def computerVsComputer(implicit game: Game): String = {
     val computer1 = Player("Computer 1", game.randomItem)
     val computer2 = Player("Computer 2", game.randomItem)
@@ -59,6 +72,11 @@ object PlayGame {
     play(computer1, computer2)
   }
 
+  /**
+   * Player (user) VS Computer game
+   * @param game game to be played
+   * @return the result message to be displayed to the user
+   */
   def playerVsComputer(userItemName: String)(implicit game: Game): String = {
     game.nameToItem(userItemName) match {
       case Some(userItem) =>
@@ -74,6 +92,10 @@ object PlayGame {
   }
 
   /**
+   * Play the game between two players
+   * @param player1 player 1
+   * @param player2 player 2
+   * @param game game to be played
    * @return the result message to be displayed to the user
    */
   def play(player1: Player, player2: Player)(implicit game: Game): String = {
@@ -87,6 +109,11 @@ object PlayGame {
     }
   }
 
+  /**
+   * Build the message for the result of a game played
+   * @param result the result object of the game played
+   * @return the result message
+   */
   def buildMessage(result: Result): String = {
     result match {
       case Tie => "Tie!"
@@ -95,4 +122,9 @@ object PlayGame {
   }
 }
 
+/**
+ * Represents a player in the game
+ * @param name the name of the player
+ * @param item the item chosen by the player
+ */
 case class Player(name: String, item: Item)

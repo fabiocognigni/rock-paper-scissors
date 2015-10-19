@@ -24,6 +24,10 @@ class RockPaperScissorsSpec extends WordSpec with MustMatchers {
       play(Paper, Rock) mustEqual expectedResult
       play(Rock, Paper) mustEqual expectedResult
     }
+
+    "return its name" in {
+      name mustEqual "Rock Paper Scissors"
+    }
   }
 
 }

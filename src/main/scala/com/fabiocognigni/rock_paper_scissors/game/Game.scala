@@ -17,9 +17,9 @@ trait Game {
    * Format: (winnerItem, loserItem) -> beatAction
    *
    * Note 1: it has been defined as a method instead of a val to make it easier inheriting it and possibly
-   * referring to it with super when overriding it (not allowed by Scala with val).
-   * Note 2: rules could also be expressed as Set[Win] but this wouldn't guarantee by design the uniqueness of the tuple
-   * (winner, loser). In addition a map has better access performance in case of a large set of rules.
+   * referring to it with "super.winRules" when overriding it (not allowed by Scala with val).
+   * Note 2: rules could also be expressed as Set[Win] but this wouldn't guarantee the uniqueness of the tuple
+   * (winner, loser) by design. In addition a map has better access performance in case of a large set of rules.
    */
   def winRules: Map[(Item, Item), String]
 
@@ -32,7 +32,7 @@ trait Game {
     /**
      * Note: a well defined game should have each item being the winner at least in one case.
      * I'm checking also the losers side to still return all different items even when the game is not well defined (the user will
-     * get an error according to the play method design when trying to play with a non defined pair of items).
+     * get an error - according to how the play method has been designed - when trying to play with a non defined pair of items).
      */
     val allLosers: Set[Item] = winRules.keys map(_._2) toSet
 

@@ -1,10 +1,11 @@
 package com.fabiocognigni.rock_paper_scissors.game
 
-import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Item}
+import com.fabiocognigni.rock_paper_scissors.game.Game.Item
 
+/**
+ * Trait that can be re-used for extensions like Rock Paper Scissors Lizard Spock
+ */
 trait RockPaperScissors  extends Game {
-
-  override def name = "Rock Paper Scissors"
 
   case object Rock extends Item("rock")
   case object Paper extends Item("paper")
@@ -17,4 +18,9 @@ trait RockPaperScissors  extends Game {
   )
 }
 
-object RockPaperScissors extends RockPaperScissors
+/**
+ * Define the object to be able to have a concrete (singleton) instance of the game.
+ */
+object RockPaperScissors extends RockPaperScissors {
+  override def name = "Rock Paper Scissors"
+}

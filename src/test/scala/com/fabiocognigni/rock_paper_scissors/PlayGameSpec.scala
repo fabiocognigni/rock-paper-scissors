@@ -17,41 +17,41 @@ class PlayGameSpec extends WordSpec with MustMatchers {
       PlayGame.selectGameType(None) mustEqual RockPaperScissors
       PlayGame.selectGameType(Some("not-valid-game-name")) mustEqual RockPaperScissors
     }
-  }
 
-  "build a proper message for the user given the Result" in {
-    PlayGame.buildMessage(Tie) must include ("Tie")
-    PlayGame.buildMessage(Win(Item1, "beats", Item2)) must include ("item1 beats item2")
-  }
+    "build a proper message for the user given the Result" in {
+      PlayGame.buildMessage(Tie) must include("Tie")
+      PlayGame.buildMessage(Win(Item1, "beats", Item2)) must include("item1 beats item2")
+    }
 
-  "return a message including players' names, items' names, winner, loser and winning rule" in {
-    implicit val game = GameExample
+    "return a message including players' names, items' names, winner, loser and winning rule" in {
+      implicit val game = GameExample
 
-    val resultMessage = PlayGame.play(Player("player1", Item1), Player("player2", Item2))
-    resultMessage must include ("player1")
-    resultMessage must include ("player2")
-    resultMessage must include ("item1 won")
-    resultMessage must include ("item1 beats1 item2")
-  }
+      val resultMessage = PlayGame.play(Player("player1", Item1), Player("player2", Item2))
+      resultMessage must include("player1")
+      resultMessage must include("player2")
+      resultMessage must include("item1 won")
+      resultMessage must include("item1 beats1 item2")
+    }
 
-  "return the proper message for a game player vs computer" in {
-    implicit val game = GameExample
+    "return the proper message for a game player vs computer" in {
+      implicit val game = GameExample
 
-    PlayGame.playerVsComputer("not-valid-name") must include ("is not a valid item")
+      PlayGame.playerVsComputer("not-valid-name") must include("is not a valid item")
 
-    val resultMessage = PlayGame.playerVsComputer("item1")
-    resultMessage must include ("You")
-    resultMessage must include ("Computer")
-    resultMessage.contains("won!") || resultMessage.contains("Tie!") mustEqual true
-  }
+      val resultMessage = PlayGame.playerVsComputer("item1")
+      resultMessage must include("You")
+      resultMessage must include("Computer")
+      resultMessage.contains("won!") || resultMessage.contains("Tie!") mustEqual true
+    }
 
-  "return the proper message for a game computer vs computer" in {
-    implicit val game = GameExample
+    "return the proper message for a game computer vs computer" in {
+      implicit val game = GameExample
 
-    val resultMessage = PlayGame.computerVsComputer
-    resultMessage must include ("Computer 1")
-    resultMessage must include ("Computer 2")
-    resultMessage.contains("won!") || resultMessage.contains("Tie!") mustEqual true
+      val resultMessage = PlayGame.computerVsComputer
+      resultMessage must include("Computer 1")
+      resultMessage must include("Computer 2")
+      resultMessage.contains("won!") || resultMessage.contains("Tie!") mustEqual true
+    }
   }
 
   case object Item1 extends Item("item1")
