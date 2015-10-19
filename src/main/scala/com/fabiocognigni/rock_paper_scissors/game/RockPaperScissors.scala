@@ -8,10 +8,10 @@ trait RockPaperScissors  extends Game {
   case object Paper extends Item("paper")
   case object Scissors extends Item("scissors")
 
-  override def winRules: Set[Win] = Set(
-    Win(Paper, "covers", Rock),
-    Win(Rock, "crushes", Scissors),
-    Win(Scissors, "cuts", Paper)
+  override def winRules: Map[(Item, Item), String] = Map(
+    (Paper, Rock) -> "covers",
+    (Rock, Scissors) -> "crushes",
+    (Scissors, Paper) -> "cuts"
   )
 }
 

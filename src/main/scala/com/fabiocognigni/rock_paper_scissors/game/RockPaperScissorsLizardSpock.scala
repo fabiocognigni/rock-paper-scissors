@@ -4,16 +4,15 @@ import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Item}
 
 object RockPaperScissorsLizardSpock extends RockPaperScissors {
 
-  override def winRules: Set[Win] = super.winRules ++ Set(
-    Win(Rock, "crushes", Lizard),
-    Win(Paper, "disproves", Spock),
-    Win(Scissors, "decapitates", Lizard),
-    Win(Lizard, "eats", Paper),
-    Win(Lizard, "poisons", Spock),
-    Win(Spock, "smashes", Scissors),
-    Win(Spock, "vaporizes", Rock)
-  )
-
   case object Lizard extends Item("lizard")
   case object Spock extends Item("spock")
+
+  override def winRules: Map[(Item, Item), String] = super.winRules ++ Map(
+    (Rock, Lizard) -> "crushes",
+    (Paper , Spock) -> "disproves",
+    (Scissors, Lizard) -> "decapitates",
+    (Lizard, Paper) -> "eats",
+    (Lizard, Spock) -> "poisons",
+    (Spock, Scissors) -> "smashes",
+    (Spock, Rock) -> "vaporizes")
 }

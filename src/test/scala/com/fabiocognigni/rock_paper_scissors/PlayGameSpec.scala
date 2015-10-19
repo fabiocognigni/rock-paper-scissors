@@ -63,12 +63,10 @@ class PlayGameSpec extends WordSpec with MustMatchers {
     val TwoBeatsThreeAction: String = "beats2"
     val ThreeBeatsOneAction: String = "beats3"
 
-    override def winRules: Set[Win] = Set(
-      Win(Item1, OneBeatsTwoAction, Item2),
-      Win(Item2, TwoBeatsThreeAction, Item3),
-      Win(Item3, ThreeBeatsOneAction, Item1)
-    )
-
+    override def winRules: Map[(Item, Item), String] = Map(
+      (Item1, Item2) -> OneBeatsTwoAction,
+      (Item2, Item3) -> TwoBeatsThreeAction,
+      (Item3, Item1) -> ThreeBeatsOneAction)
   }
 
 }

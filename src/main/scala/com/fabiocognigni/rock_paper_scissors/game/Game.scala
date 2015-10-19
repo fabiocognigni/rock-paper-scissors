@@ -9,27 +9,27 @@ trait Game {
   
   /**
    * Override it by defining the winning rules for your specific game.
+   * Format: (winnerItem, loserItem) -> beatAction
    *
-   * Note 1: it has been defined as a method instead of as a val to make it easier inheriting it and possibly
+   * Note 1: it has been defined as a method instead of a val to make it easier inheriting it and possibly
    * referring to it with super when overriding it (not allowed by Scala with val).
-   * Note 2: for very large sets of rules a map (winner, loser) might give better lookup performances but for the size
-   * of this kind of application choosing a set has roughly the same performances and it makes the overall design cleaner,
-   * less redundant and the code simpler.
+   * Note 2: rules could also be expressed as Set[Win] but this wouldn't guarantee by design the uniqueness of the tuple
+   * (winner, loser). In addition a map has better access performance in case of a large set of rules.
    */
-  def winRules: Set[Win]
+  def winRules: Map[(Item, Item), String]
 
   /**
    * Determines all the distinct items according to the rules of the game
    * @return all the distinct items according to the rules of the game
    */
   def allItems: Set[Item] = {
-    val allWinners: Set[Item] = winRules map (_.winner)
+    val allWinners: Set[Item] = winRules.keys map(_._1) toSet
     /**
      * Note: a well defined game should have each item being the winner at least in one case.
-     * I'm checking also the losers side to still return all different items in case the game is not well defined (the user will
+     * I'm checking also the losers side to still return all different items even when the game is not well defined (the user will
      * get an error according to the play method design when trying to play with a non defined pair of items).
      */
-    val allLosers: Set[Item] = winRules map (_.loser)
+    val allLosers: Set[Item] = winRules.keys map(_._2) toSet
 
     allWinners union allLosers
   }
@@ -49,7 +49,7 @@ trait Game {
   }
 
   /**
-   * Determines who the winner is.
+   * Determines who the winner item is.
    * @param item1 item chosen by player 1
    * @param item2 item chosen by player 2
    * @return an object Result containing the winner, the loser and the beat action or an object Tie when players choose same items.
@@ -59,10 +59,9 @@ trait Game {
     if(item1 == item2)
       Tie
     else {
-      winRules.filter( winRule => (winRule.winner == item1 && winRule.loser == item2)).headOption getOrElse
-        winRules.filter( winRule => (winRule.winner == item2 && winRule.loser == item1)).headOption.getOrElse(
-          throw new IllegalStateException(s"No matching rules for the players' items: player1=$item1; player2=$item2; rules=$winRules")
-        )
+      winRules.get(item1, item2).map(Win(item1, _, item2)).getOrElse(
+        winRules.get(item2, item1).map(Win(item2, _, item1)).getOrElse(
+          throw new IllegalStateException(s"No matching rules for the players' items: player1=$item1; player2=$item2; rules=$winRules")))
     }
   }
 
