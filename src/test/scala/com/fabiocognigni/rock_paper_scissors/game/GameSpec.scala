@@ -93,6 +93,8 @@ case object Item2 extends Item("item2")
 case object Item3 extends Item("item3")
 
 object CompleteGame extends Game {
+  override def name = "Game with a complete set of rules"
+
   val OneBeatsTwoAction: String = "1 beats 2"
   val TwoBeatsThreeAction: String = "2 beats 3"
   val ThreeBeatsOneAction: String = "3 beats 1"
@@ -105,6 +107,8 @@ object CompleteGame extends Game {
 }
 
 object IncompleteGame extends Game {
+  override def name = "Game with incomplete set of rules"
+
   val OneBeatsTwoAction: String = "1 beats 2"
   val TwoBeatsThreeAction: String = "2 beats 3"
 

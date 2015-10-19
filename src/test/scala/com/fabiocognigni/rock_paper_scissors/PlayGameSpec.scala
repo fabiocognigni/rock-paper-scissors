@@ -59,6 +59,8 @@ class PlayGameSpec extends WordSpec with MustMatchers {
   case object Item3 extends Item("item3")
 
   object GameExample extends Game {
+    override def name = "Example Game"
+
     val OneBeatsTwoAction: String = "beats1"
     val TwoBeatsThreeAction: String = "beats2"
     val ThreeBeatsOneAction: String = "beats3"

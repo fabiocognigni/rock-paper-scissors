@@ -12,10 +12,11 @@ object PlayGame {
           "extended" -> RockPaperScissorsLizardSpock)
 
   def main (args: Array[String]) {
-    // $COVERAGE-OFF$ this method cannot be tested: it's meant to drive the manual testing and it's not observable (it only prints to stdout)
+    // $COVERAGE-OFF$ this method is meant to drive the manual testing and it's not observable (it only prints to stdout)
 
     val gameSelector = Option(System.getProperty("game")) //from -Dgame JVM param
     implicit val game = selectGameType(gameSelector)
+    println(s"Game selected: ${game.name}")
 
     val resultMessage = args.length match {
       case 0 =>

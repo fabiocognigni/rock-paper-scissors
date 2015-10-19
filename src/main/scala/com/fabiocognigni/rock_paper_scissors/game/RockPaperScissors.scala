@@ -4,6 +4,8 @@ import com.fabiocognigni.rock_paper_scissors.game.Game.{Win, Item}
 
 trait RockPaperScissors  extends Game {
 
+  override def name = "Rock Paper Scissors"
+
   case object Rock extends Item("rock")
   case object Paper extends Item("paper")
   case object Scissors extends Item("scissors")

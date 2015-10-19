@@ -6,6 +6,11 @@ import scala.util.Random
 
 
 trait Game {
+
+  /**
+   * The name of the game
+   */
+  def name: String
   
   /**
    * Override it by defining the winning rules for your specific game.
